@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.btn-activo {
+  border: 0.1rem white solid;
+  padding: 1rem 2.2rem;
+  border-radius: 4rem;
+}
+
+.btn-inactivo {
+  padding: 1.5rem;
+  border-radius: 4rem;
+}
+
+.btn-inactivo:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 1024px) {
+  .menuMobile {
+    margin: 0 5px;
+    padding: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 820px) {
+  .menuMobile {
+    margin: 0 5px;
+    padding: 0.8rem;
+  }
+
+  .noneMobile {
+    display: none;
+  }
+
+    .isMobil {
+    border: none;
+  }
+
+  .blockMobile {
+    display: block;
+  }
+
+}
+
+@media screen and (max-width: 450px) {
+  .headergrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "logo-area login-menu-area"
+      "menu-area menu-area";
+    gap: 1rem;
+    padding: 1rem;
+    align-items: center;
+  }
+
+  .menuMobile {
+    margin: 0 5px;
+    padding: 0.8rem;
+  }
+
+  .login-menu-area {
+    grid-area: login-menu-area;
+    justify-content: flex-end;
+  }
+
+  .menu-area {
+    grid-area: menu-area;
+    justify-content: space-between;
+    font-size: 1.4rem;
+  }
+
+  .noneMobile {
+    display: none;
+  }
+
+  .marginMobile {
+    margin: 0;
+  }
+
+  .isMobil {
+    border: none;
+  }
+
+  .blockMobile {
+    display: block;
+  }
+}
