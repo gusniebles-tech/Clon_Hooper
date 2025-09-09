@@ -27,7 +27,7 @@ export default function Header() {
                     </div>
                     <div className="login-menu-area flex justify-between text-[1.6rem] text-white font-semibold items-center marginMobile">
                         <a href="#" className="noneMobile"><Globe color="white" size={20} /></a>
-                        <a href="#" className="flex mx-10 noneMobile">4 Mis Viajes</a>
+                        <a href="#" className="flex mx-10 noneMobile"><Search className="me-4 noneMobile" color="white" size={20} /> Mis Viajes</a>
                         <a href="#" className="border-1 px-6 py-3 rounded-2xl isMobil flex"><User className="hidden blockMobile me-1" color="white" size={20} />  Iniciar Sesión</a>
                     </div>
                 </header>
