@@ -5,7 +5,8 @@ html {
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-montserrate-sans), sans-serif;
+  font-weight: 200;
 }
 
 .btn-activo {
@@ -94,4 +95,14 @@ body {
   .blockMobile {
     display: block;
   }
+}
+
+label {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+::placeholder {
+  font-size: 1.3rem;
+  font-weight: 400;
 }

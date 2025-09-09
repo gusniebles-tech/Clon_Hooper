@@ -93,7 +93,7 @@ const slides = [
 export default function Carrusel() {
   return (
     <div className="absolute w-full flex items-center justify-center p-4 -z-1">
-      <div className="w-full h-[600px] rounded-[3rem] overflow-hidden shadow-lg">
+      <div className="w-full h-[600px] rounded-[3rem] overflow-hidden">
         <Carousel
           autoPlay
           infiniteLoop
