@@ -51,7 +51,7 @@ body {
 
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 540px) {
   .headergrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
