@@ -55,16 +55,18 @@ export async function GET(req) {
         const data = await response.json();
 
         const hoteles = (data.properties || []).map((hotel) => ({
-            name: hotel.title,  
+            name: hotel.name,  
             description: hotel.description,
             link: hotel.link,
             images: hotel.images || [],
-            overall_rating: hotel.rating,
+            overall_rating: hotel.overall_rating,
             reviews: hotel.reviews,
+            ratings_breakdown: hotel.ratings || [],
+            rate_per_night: hotel.rate_per_night || null,
             total_rate: hotel.total_rate,
             deal: hotel.deal,
             deal_description: hotel.deal_description,
-
+            amenities: hotel.amenities || [],
         }));
 
         return NextResponse.json({ ok: true, hoteles});

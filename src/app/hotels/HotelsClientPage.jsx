@@ -44,15 +44,17 @@ export default function Hoteles() {
     return (
         <>
             <HeaderHotel />
-            <div className="flex gap-6 p-6">
-                <SidebarFilters />
+            <main className="w-[65vw] m-auto">
+                <div className="flex gap-6 p-6">
+                    <SidebarFilters />
 
-                <div className="flex-1">
-                    {carga && <p className="text-gray-500">Cargando hoteles...</p>}
-                    {error && <p className="text-red-500">{error}</p>}
-                    {!carga && !error && <HotelList hotels={hoteles} />}
+                    <div className="flex-1">
+                        {carga && <p className="text-gray-500">Cargando hoteles...</p>}
+                        {error && <p className="text-red-500">{error}</p>}
+                        {!carga && !error && <HotelList hotels={hoteles} destino={destino} />}
+                    </div>
                 </div>
-            </div>
+            </main>
         </>
     );
 }

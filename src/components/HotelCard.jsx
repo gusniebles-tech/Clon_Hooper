@@ -1,61 +1,113 @@
 // src/components/HotelCard.jsx
 "use client";
-import { Star } from "lucide-react";
+import { Star, ShieldCheck, Wifi, Car, Snowflake, Utensils, Coffee, Dumbbell, Dog, Bath, Hotel, Beer, TreePalm, Plane, ChevronRight } from "lucide-react";
+
+const amenityIcons = {
+  "Free Wi-Fi": Wifi,
+  "Parking ($)": Car,
+  "Free parking": Car,
+  "Air conditioning": Snowflake,
+  "Breakfast ($)": Coffee,
+  "Restaurant": Utensils,
+  "Fitness center": Dumbbell,
+  "Pet-friendly": Dog,
+  "Outdoor pool": Bath,
+  "5-star hotel": Hotel,
+  "Bar": Beer,
+  "Beach access": TreePalm,
+  "Aiport shuttle": Plane,
+};
+
+const allowedAmenities = [
+  "5-star hotel",
+  "Breakfast ($)",
+  "Free Wi-Fi",
+  "Free parking",
+  "Air conditioning",
+  "Fitness center",
+  "Pet-friendly",
+  "Restaurant",
+  "Room service",
+  "Parking ($)",
+  "Aiport shuttle",
+  "Bar",
+];
+
 
 export default function HotelCard({ hotel }) {
   return (
     <div className="flex bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-5">
       {/* Imagen */}
-      <div className="w-[240px] h-[253px] flex-shrink-0">
+      <div className="w-[240px] h-auto flex-shrink-0 p-6">
         <img
           src={hotel.images[0].thumbnail || "https://placehold.co/200x150?text=Sin+Imagen"}
           alt={hotel.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-lg"
         />
       </div>
 
       {/* Info */}
-      <div className="flex flex-col justify-between flex-1 p-4">
+      <div className="p-4 w-full flex flex-col justify-between">
         <div>
-          {/* Nombre + Rating */}
-          <div className="flex justify-between items-start">
-            <h2 className="text-lg font-semibold">{hotel.name}</h2>
-            <div className="text-right">
-              {hotel.rating && (
-                <div className="flex items-center gap-1 text-yellow-500">
-                  {[...Array(Math.round(hotel.rating))].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-yellow-500" />
-                  ))}
-                </div>
-              )}
-              <span className="text-sm text-gray-500">
-                {hotel.reviews ? `${hotel.reviews} reseñas` : "Sin reseñas"}
-              </span>
-            </div>
-          </div>
+          <h2 className="text-lg font-semibold text-[2rem]">{hotel.name}</h2>
+          <div className="flex">
+            {hotel.overall_rating && (
+              <div className="flex items-center gap-1 text-yellow-500">
+                {[...Array(Math.round(hotel.overall_rating))].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-yellow-500" />
+                ))}
 
-          {/* Descripción corta */}
-          {hotel.description && (
-            <p className="text-sm text-gray-600 mt-2 line-clamp-2">
-              {hotel.description}
-            </p>
-          )}
+                <span className="text-[1.2rem] text-black font-medium mx-2">
+                  {hotel.overall_rating.toFixed(1)}
+                </span>
+              </div>
+            )}
+            <span className="text-[1.2rem] text-black font-medium">
+              ·  {hotel.reviews ? `${hotel.reviews} reseñas` : "Sin reseñas"}
+            </span>
+          </div>
         </div>
 
-        {/* Precio y botón */}
-        <div className="flex justify-between items-center mt-3">
-          <p className="text-xl font-bold text-gray-800">
-            {hotel.price?.extracted_lowest
-              ? `${hotel.price.extracted_lowest} US$`
-              : "Consultar"}
-          </p>
-          <a
-            href={hotel.link || "#"}
-            target="_blank"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-          >
-            Ver disponibilidad
-          </a>
+
+        <div className="flex justify-between">
+          {/* Caracteristicas */}
+          <div className="grid grid-cols-2 gap-2 mt-4 text-sm text-gray-700">
+            {hotel.amenities &&
+              hotel.amenities
+                .filter((amenity) => allowedAmenities.includes(amenity))
+                .slice(0, 9)
+                .map((amenity, i) => {
+                  const Icon = amenityIcons[amenity] || ShieldCheck;
+                  return (
+                    <div key={i} className="flex items-center gap-8 my-2">
+                      <Icon className="w-8 h-8" />
+                      <span className="text-[1.2rem] font-medium">{amenity}</span>
+                    </div>
+                  );
+                })}
+          </div>
+
+          {/* Precio y botón */}
+          <div className="p-4 w-full max-w-sm text-right flex flex-col justify-end">
+            {/* Precio por noche */}
+            <div className="flex items-baseline gap-2 justify-end">
+              <span className="text-[2rem] font-bold">
+                {hotel.rate_per_night?.lowest || "N/A"}
+              </span>
+              <span className="text-[1.2rem] font-medium">/ noche</span>
+            </div>
+
+            {/* Total con impuestos */}
+            <p className="text-[1.2rem] font-medium mt-1">
+              Total {hotel?.total_rate?.lowest || "N/A"}
+            </p>
+            <p className="text-[1.2rem] font-medium">incluye impuestos y cargos</p>
+
+            {/* Botón */}
+            <button className="mt-3 text-[1.4rem] flex items-center justify-center w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+              Ver disponibilidad <ChevronRight size={25} />
+            </button>
+          </div>
         </div>
       </div>
     </div>
