@@ -1,9 +1,10 @@
 // src/components/SidebarFilters.jsx
 "use client";
+import "../app/styles/HotelClientPage.css";
 
 export default function SidebarFilters() {
   return (
-    <aside className="w-72 bg-white border border-gray-200 rounded-xl p-4 h-fit sticky top-20">
+    <aside className="w-72 bg-white border border-gray-200 rounded-xl p-4 h-fit sticky top-20 SBdNone">
       <h3 className="font-semibold mb-3">Filtrar por:</h3>
 
       {/* Presupuesto */}

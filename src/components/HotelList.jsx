@@ -12,7 +12,7 @@ export default function HotelList({ hotels = [], destino }) {
         <p className="text-gray-700 mb-4 text-[2.4rem] font-bold"><span className="capitalize">{destino}: </span>{hotels.length} alojamientos disponibles</p>
       </div>
       {hotels.map((hotel, i) => (
-        <HotelCard key={i} hotel={hotel} />
+        <HotelCard key={i} hotel={hotel} destino={destino}/>
       ))}
     </div>
   );

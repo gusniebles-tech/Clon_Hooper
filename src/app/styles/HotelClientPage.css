@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+@media (max-width: 1024px) {
+    .HPwidth {
+        width: 100%;
+    }
+}
+
+@media (max-width: 912px) {
+
+    .SBdNone,
+    .HdNone {
+        display: none;
+    }
+
+    .Bmediaq {
+        border: none;
+        padding: 0.5rem 1.2rem;
+    }
+
+    .hidden {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+    .hidden {
+        display: none;
+    }
+}
+
+@media (max-width: 540px) {
+    .HPcol {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        grid-template-areas:
+            "logo-area login-menu-area"
+            "menu-area menu-area";
+        gap: 1rem;
+        padding: 0.3rem;
+        align-items: center;
+    }
+
+    .hidden {
+        display: block;
+    }
+
+    .Headerpading {
+        padding: 0.3rem;
+    }
+
+    .menu-area {
+        margin: auto;
+    }
+
+    .WQuery {
+        width: 13rem;
+    }
+
+    .PriceQuery {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+        justify-items: end;
+    }
+
+    .Amenities {
+        justify-self: start;
+    }
+}
+
+@media (max-width: 430px) {
+    .card {
+        padding: 0.1rem;
+    }
+
+    .formQ {
+        margin: auto;
+        width: 100%;
+        max-width: 100vw;
+        display: grid;
+        grid-template-columns: 30rem 3rem;
+        grid-template-rows: auto auto;
+        grid-template-areas: "destino btn" "fecha btn";
+        padding: 1rem;
+        align-items: center;
+    }
+
+    .wInput {
+        width: 100%;
+        border: none;
+    }
+
+    .btnW {
+        padding: 1rem;
+    }
+
+    .destino {
+        grid-area: destino;
+        width: 70vw;
+    }
+
+    .fecha {
+        grid-area: fecha;
+    }
+
+    .guest {
+        grid-area: guest;
+    }
+
+    .btn {
+        grid-area: btn;
+    }
+
+}

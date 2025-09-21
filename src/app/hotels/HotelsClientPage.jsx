@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import SidebarFilters from "@/components/SidebarFilters";
 import HotelList from "@/components/HotelList";
 import HeaderHotel from "@/components/HeaderHotels";
+import "../styles/HotelClientPage.css"
 
 export default function Hoteles() {
     const busquedadParametros = useSearchParams();
@@ -44,8 +45,8 @@ export default function Hoteles() {
     return (
         <>
             <HeaderHotel />
-            <main className="w-[65vw] m-auto">
-                <div className="flex gap-6 p-6">
+            <main className="w-[65vw] m-auto HPwidth">
+                <div className="flex gap-6 p-6 card">
                     <SidebarFilters />
 
                     <div className="flex-1">

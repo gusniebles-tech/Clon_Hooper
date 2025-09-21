@@ -1,3 +1,4 @@
+// app/api/hotels/route.js
 import { NextResponse } from "next/server";
 
 const ciudades = [
@@ -15,24 +16,26 @@ const ciudades = [
 
 export async function GET(req) {
     const { searchParams } = new URL(req.url);
-    const destino = searchParams.get("destino")
+    const destino = searchParams.get("destino");
     const checkin = searchParams.get("checkin");
     const checkout = searchParams.get("checkout");
     const guests = searchParams.get("guests");
-    const sugerencias = searchParams.get("sugerencias")
+    const sugerencias = searchParams.get("sugerencias");
+    const property_token = searchParams.get("property_token");
 
+    // 📌 Sugerencias de ciudades
     if (sugerencias && destino) {
         const match = ciudades.filter((c) =>
             c.toLocaleLowerCase().includes(destino.toLocaleLowerCase())
-        )
+        );
         return NextResponse.json({ ok: true, ciudades: match });
     }
 
-    if (!destino) {
+    if (!destino && !property_token) {
         return NextResponse.json(
             { error: "Ruta no encontrada" },
             { status: 400 }
-        )
+        );
     }
 
     const parametros = new URLSearchParams({
@@ -42,7 +45,7 @@ export async function GET(req) {
         check_out_date: checkout || "2025-09-22",
         adults: guests || "1",
         api_key: process.env.SERPAPI_KEY || "",
-    })
+    });
 
     try {
         const response = await fetch(`https://serpapi.com/search.json?${parametros.toString()}`);
@@ -53,12 +56,14 @@ export async function GET(req) {
         }
 
         const data = await response.json();
+        console.log(data)
 
         const hoteles = (data.properties || []).map((hotel) => ({
-            name: hotel.name,  
+            property_token: hotel.property_token,
+            name: hotel.name,
             description: hotel.description,
             link: hotel.link,
-            images: hotel.images || [],
+            images: (hotel.images || []).map((img) => img.thumbnail || img.original_image),
             overall_rating: hotel.overall_rating,
             reviews: hotel.reviews,
             ratings_breakdown: hotel.ratings || [],
@@ -69,12 +74,25 @@ export async function GET(req) {
             amenities: hotel.amenities || [],
         }));
 
-        return NextResponse.json({ ok: true, hoteles});
+        // 📌 Si se pide un hotel específico por property_token
+        if (property_token) {
+            const hotel = hoteles.find((h) => h.property_token === property_token);
+            if (!hotel) {
+                return NextResponse.json(
+                    { error: "Hotel no encontrado"},
+                    { status: 404 }
+                );
+            }
+            return NextResponse.json({ ok: true, hotel }); // 👈 devolvemos solo el hotel
+        }
+
+        // 📌 Si no hay property_token, devolver todos los hoteles
+        return NextResponse.json({ ok: true, hoteles });
     } catch (error) {
         console.error("Error en la consulta de hoteles: ", error.message);
         return NextResponse.json(
-            { ok: false, error: "Error en la consulta de los hoteles en SerpApi."},
-            { status: 500}
-        )
+            { ok: false, error: "Error en la consulta de los hoteles en SerpApi." },
+            { status: 500 }
+        );
     }
 }

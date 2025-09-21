@@ -1,6 +1,8 @@
 // src/components/HotelCard.jsx
 "use client";
 import { Star, ShieldCheck, Wifi, Car, Snowflake, Utensils, Coffee, Dumbbell, Dog, Bath, Hotel, Beer, TreePalm, Plane, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const amenityIcons = {
   "Free Wi-Fi": Wifi,
@@ -33,14 +35,30 @@ const allowedAmenities = [
   "Bar",
 ];
 
+export default function HotelCard({ hotel, destino }) {
 
-export default function HotelCard({ hotel }) {
+  const [queryCaracteristicas, setQueryCaracteristicas] = useState(9);
+  const router = useRouter();
+
+  useEffect(() => {
+    const query = () => {
+      if (window.innerWidth <= 540) {
+        setQueryCaracteristicas(2);
+      } else {
+        setQueryCaracteristicas(9);
+      }
+    };
+    query();
+    window.addEventListener("ajuste", query);
+    return () => window.removeEventListener("ajuste", query);
+  }, []);
+
   return (
     <div className="flex bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-5">
       {/* Imagen */}
-      <div className="w-[240px] h-auto flex-shrink-0 p-6">
+      <div className="w-[240px] h-auto flex-shrink-0 p-6 WQuery">
         <img
-          src={hotel.images[0].thumbnail || "https://placehold.co/200x150?text=Sin+Imagen"}
+          src={hotel.images[0] || "https://placehold.co/200x150?text=Sin+Imagen"}
           alt={hotel.name}
           className="w-full h-full object-cover rounded-lg"
         />
@@ -69,13 +87,13 @@ export default function HotelCard({ hotel }) {
         </div>
 
 
-        <div className="flex justify-between">
+        <div className="flex justify-between PriceQuery">
           {/* Caracteristicas */}
-          <div className="grid grid-cols-2 gap-2 mt-4 text-sm text-gray-700">
+          <div className="grid grid-cols-2 gap-2 mt-4 text-sm text-gray-700 Amenities">
             {hotel.amenities &&
               hotel.amenities
                 .filter((amenity) => allowedAmenities.includes(amenity))
-                .slice(0, 9)
+                .slice(0, queryCaracteristicas)
                 .map((amenity, i) => {
                   const Icon = amenityIcons[amenity] || ShieldCheck;
                   return (
@@ -104,7 +122,9 @@ export default function HotelCard({ hotel }) {
             <p className="text-[1.2rem] font-medium">incluye impuestos y cargos</p>
 
             {/* Botón */}
-            <button className="mt-3 text-[1.4rem] flex items-center justify-center w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+            <button className="mt-3 text-[1.4rem] flex items-center justify-center w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
+              onClick={() =>router.push(`/hotels/${hotel.property_token}?destino=${destino}`)}
+            >
               Ver disponibilidad <ChevronRight size={25} />
             </button>
           </div>
