@@ -35,7 +35,7 @@ const allowedAmenities = [
   "Bar",
 ];
 
-export default function HotelCard({ hotel, destino }) {
+export default function HotelCard({ hotel, destino, checkin, checkout, guests }) {
 
   const [queryCaracteristicas, setQueryCaracteristicas] = useState(9);
   const router = useRouter();
@@ -52,6 +52,18 @@ export default function HotelCard({ hotel, destino }) {
     window.addEventListener("ajuste", query);
     return () => window.removeEventListener("ajuste", query);
   }, []);
+
+  const VerDisponibilidad = () => {
+ 
+    const params = new URLSearchParams({
+      destino: destino || '',
+      checkin: checkin || '',
+      checkout: checkout || '',
+      guests: guests || '1'
+    });
+
+    router.push(`/hotels/${hotel.property_token}?${params.toString()}`);
+  };
 
   return (
     <div className="flex bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-5">
@@ -123,7 +135,7 @@ export default function HotelCard({ hotel, destino }) {
 
             {/* Botón */}
             <button className="mt-3 text-[1.4rem] flex items-center justify-center w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
-              onClick={() =>router.push(`/hotels/${hotel.property_token}?destino=${destino}`)}
+              onClick={VerDisponibilidad}
             >
               Ver disponibilidad <ChevronRight size={25} />
             </button>

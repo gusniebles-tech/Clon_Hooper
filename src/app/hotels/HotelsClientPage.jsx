@@ -52,7 +52,15 @@ export default function Hoteles() {
                     <div className="flex-1">
                         {carga && <p className="text-gray-500">Cargando hoteles...</p>}
                         {error && <p className="text-red-500">{error}</p>}
-                        {!carga && !error && <HotelList hotels={hoteles} destino={destino} />}
+                        {!carga && !error && (
+                            <HotelList
+                                hotels={hoteles}
+                                destino={destino}
+                                checkin={checkin}
+                                checkout={checkout}
+                                guests={guests}
+                            />
+                        )}
                     </div>
                 </div>
             </main>

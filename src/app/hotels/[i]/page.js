@@ -26,7 +26,7 @@ async function getHotel(property_token, searchParams = {}) {
         const data = await res.json();
         return data.ok && data.hotel ? data.hotel : null;
     } catch (error) {
-        console.error("❌ Error al obtener hotel:", error);
+        console.error("Error al obtener hotel:", error);
         return null;
     }
 }
@@ -65,8 +65,9 @@ const allowedAmenities = [
 ];
 
 export default async function HotelDetalle({ params, searchParams }) {
-    const { i } = params;
-    const hotel = await getHotel(i, searchParams);
+    const { i } = await params;
+    const parametros = await searchParams;
+    const hotel = await getHotel(i, parametros);
 
     if (!hotel) {
         return <p className="p-6">Hotel no encontrado</p>;

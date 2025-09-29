@@ -23,7 +23,7 @@ export async function GET(req) {
     const sugerencias = searchParams.get("sugerencias");
     const property_token = searchParams.get("property_token");
 
-    // 📌 Sugerencias de ciudades
+    // Sugerencias de ciudades
     if (sugerencias && destino) {
         const match = ciudades.filter((c) =>
             c.toLocaleLowerCase().includes(destino.toLocaleLowerCase())
@@ -56,7 +56,6 @@ export async function GET(req) {
         }
 
         const data = await response.json();
-        console.log(data)
 
         const hoteles = (data.properties || []).map((hotel) => ({
             property_token: hotel.property_token,
@@ -74,7 +73,7 @@ export async function GET(req) {
             amenities: hotel.amenities || [],
         }));
 
-        // 📌 Si se pide un hotel específico por property_token
+        // Si se pide un hotel específico por property_token
         if (property_token) {
             const hotel = hoteles.find((h) => h.property_token === property_token);
             if (!hotel) {
@@ -83,7 +82,7 @@ export async function GET(req) {
                     { status: 404 }
                 );
             }
-            return NextResponse.json({ ok: true, hotel }); // 👈 devolvemos solo el hotel
+            return NextResponse.json({ ok: true, hotel }); // devolvemos solo el hotel
         }
 
         // 📌 Si no hay property_token, devolver todos los hoteles
