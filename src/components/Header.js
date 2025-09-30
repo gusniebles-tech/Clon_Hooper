@@ -1,11 +1,18 @@
 'use client'
 import Image from "next/image";
-import { Globe, Search, User, BedSingle, Plane, Tag } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { Globe, Search, User, BedSingle, Plane, Tag, Award } from "lucide-react";
+import AuthModal from "./AuthModal";
 
-export default function Header() {
+
+export default function Header({ user, onLogout }) {
     const pathname = usePathname();
+    const [showModal, setShowModal] = useState(false);
+
+    const name = user?.user_metadata?.displayName || user?.user_metadata?.full_name || "";
+    const firstName = name.split(" ")[0];
 
     return (
         <>
@@ -28,10 +35,27 @@ export default function Header() {
                     <div className="login-menu-area flex justify-between text-[1.6rem] text-white font-semibold items-center marginMobile">
                         <a href="#" className="noneMobile"><Globe color="white" size={20} /></a>
                         <a href="#" className="flex mx-10 noneMobile"><Search className="me-4 noneMobile" color="white" size={20} /> Mis Viajes</a>
-                        <a href="#" className="border-1 px-6 py-3 rounded-2xl isMobil flex"><User className="hidden blockMobile me-1" color="white" size={20} />  Iniciar Sesión</a>
+
+                        {user ? (
+                            <button
+                                onClick={onLogout}
+                                className="px-6 py-3 rounded-2xl text-white flex cursor-pointer hover:bg-gray-700/10"
+                            >
+                                <User size={20} className="me-2"/>
+                                {firstName || user?.email}
+                            </button>
+                        ) : (
+                            <button
+                                onClick={() => setShowModal(true)}
+                                className="border-1 px-6 py-3 rounded-2xl text-white flex items-center cursor-pointer">
+                                <User className="me-1" color="white" size={20} /> Iniciar Sesión
+                            </button>
+                        )}
                     </div>
                 </header>
-            </article>
+                {/* MODAL DE LOGIN */}
+                {showModal && <AuthModal onClose={() => setShowModal(false)} />}
+            </article >
         </>
     );
 }
