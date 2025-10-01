@@ -1,12 +1,12 @@
 // src/app/reservas/[i]/page.js
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import HeaderHotel from "@/components/HeaderHotels";
 
-export default function ReservaPage() {
+function ReservaPageContent() {
   const searchParams = useSearchParams();
   const params = useParams();
   const router = useRouter();
@@ -373,6 +373,20 @@ export default function ReservaPage() {
           </div>
         </div>
       )}
+    </>
+  );
+}
+
+export default function ReservaPage() {
+  return (
+    <>
+      <Suspense fallback={
+        <div className="max-w-6xl mx-auto p-6">
+          <p className="text-center text-xl">Cargando...</p>
+        </div>
+      }>
+        <ReservaPageContent />
+      </Suspense>
     </>
   );
 }

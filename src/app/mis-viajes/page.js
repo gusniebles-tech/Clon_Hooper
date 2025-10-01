@@ -1,13 +1,14 @@
 // src/app/mis-viajes/page.js
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import HeaderHotel from "@/components/HeaderHotels";
 import { Calendar, Users, MapPin, Trash2, Star } from "lucide-react";
 
-export default function MisViajesPage() {
+// Componente interno que usa los hooks
+function MisViajesContent() {
   const router = useRouter();
   const [reservas, setReservas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -134,147 +135,141 @@ export default function MisViajesPage() {
 
   if (loading) {
     return (
-      <>
-        <HeaderHotel />
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="text-xl">Cargando tus viajes...</div>
-          </div>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-xl">Cargando tus viajes...</div>
         </div>
-      </>
+      </div>
     );
   }
 
   return (
-    <>
-      <HeaderHotel />
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Mis Viajes</h1>
-          <p className="text-gray-600 text-lg">
-            Gestiona todas tus reservas en un solo lugar
-          </p>
-        </div>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold mb-2">Mis Viajes</h1>
+        <p className="text-gray-600 text-lg">
+          Gestiona todas tus reservas en un solo lugar
+        </p>
+      </div>
 
-        {reservas.length === 0 ? (
-          <div className="bg-white rounded-xl shadow-sm p-12 text-center">
-            <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-              <Calendar size={40} className="text-gray-400" />
-            </div>
-            <h2 className="text-2xl font-bold mb-2">No tienes reservas aún</h2>
-            <p className="text-gray-600 mb-6">
-              Comienza a planificar tu próximo viaje
-            </p>
-            <button
-              onClick={() => router.push("/")}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-medium"
-            >
-              Buscar hoteles
-            </button>
+      {reservas.length === 0 ? (
+        <div className="bg-white rounded-xl shadow-sm p-12 text-center">
+          <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+            <Calendar size={40} className="text-gray-400" />
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {reservas.map((reserva) => (
-              <div
-                key={reserva.id}
-                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
-              >
-                {/* Imagen del hotel */}
-                <div className="relative h-48">
-                  <img
-                    src={reserva.imagen || "https://placehold.co/400x300?text=Hotel"}
-                    alt={reserva.hotel_nombre}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-3 right-3">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      reserva.estado === 'confirmada' || reserva.estado === 'confirmado'
-                        ? 'bg-green-100 text-green-800'
-                        : reserva.estado === 'pendiente'
-                        ? 'bg-yellow-100 text-yellow-800'
-                        : 'bg-red-100 text-red-800'
-                    }`}>
-                      {reserva.estado === 'confirmado' ? 'Confirmada' : 
-                       reserva.estado.charAt(0).toUpperCase() + reserva.estado.slice(1)}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Contenido */}
-                <div className="p-5">
-                  <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-xl font-bold line-clamp-2 flex-1">
-                      {reserva.hotel_nombre}
-                    </h3>
-                    {reserva.overall_rating && (
-                      <div className="flex items-center ml-2 flex-shrink-0">
-                        <Star size={16} className="text-yellow-500 fill-yellow-500" />
-                        <span className="ml-1 font-semibold">{reserva.overall_rating}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Destino */}
-                  {reserva.destino && (
-                    <div className="flex items-center text-gray-600 mb-3">
-                      <MapPin size={16} className="mr-2 flex-shrink-0" />
-                      <span className="text-sm">{reserva.destino}</span>
-                    </div>
-                  )}
-
-                  {/* Fechas */}
-                  <div className="flex items-start text-gray-700 mb-3">
-                    <Calendar size={16} className="mr-2 mt-1 flex-shrink-0" />
-                    <div className="text-sm">
-                      <div className="font-medium">
-                        {formatFecha(reserva.fecha_entrada)}
-                      </div>
-                      <div className="text-gray-500">
-                        hasta {formatFecha(reserva.fecha_salida)}
-                      </div>
-                      <div className="text-gray-500 mt-1">
-                        {calcularNoches(reserva.fecha_entrada, reserva.fecha_salida)} {
-                          calcularNoches(reserva.fecha_entrada, reserva.fecha_salida) === 1 
-                            ? 'noche' 
-                            : 'noches'
-                        }
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Huéspedes */}
-                  <div className="flex items-center text-gray-600 mb-4">
-                    <Users size={16} className="mr-2" />
-                    <span className="text-sm">
-                      {reserva.numero_huespedes} {
-                        reserva.numero_huespedes === 1 ? 'huésped' : 'huéspedes'
-                      }
-                    </span>
-                  </div>
-
-                  {/* Precio y botón */}
-                  <div className="flex items-center justify-between pt-4 border-t">
-                    <div>
-                      <div className="text-sm text-gray-500">Precio total</div>
-                      <div className="text-xl font-bold text-green-600">
-                        {reserva.precio_total}
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => handleDeleteClick(reserva)}
-                      disabled={deletingId === reserva.id}
-                      className="p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
-                      title="Cancelar reserva"
-                    >
-                      <Trash2 size={20} />
-                    </button>
-                  </div>
+          <h2 className="text-2xl font-bold mb-2">No tienes reservas aún</h2>
+          <p className="text-gray-600 mb-6">
+            Comienza a planificar tu próximo viaje
+          </p>
+          <button
+            onClick={() => router.push("/")}
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-medium"
+          >
+            Buscar hoteles
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {reservas.map((reserva) => (
+            <div
+              key={reserva.id}
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            >
+              {/* Imagen del hotel */}
+              <div className="relative h-48">
+                <img
+                  src={reserva.imagen || "https://placehold.co/400x300?text=Hotel"}
+                  alt={reserva.hotel_nombre}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-3 right-3">
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    reserva.estado === 'confirmada' || reserva.estado === 'confirmado'
+                      ? 'bg-green-100 text-green-800'
+                      : reserva.estado === 'pendiente'
+                      ? 'bg-yellow-100 text-yellow-800'
+                      : 'bg-red-100 text-red-800'
+                  }`}>
+                    {reserva.estado === 'confirmado' ? 'Confirmada' : 
+                     reserva.estado.charAt(0).toUpperCase() + reserva.estado.slice(1)}
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+
+              {/* Contenido */}
+              <div className="p-5">
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="text-xl font-bold line-clamp-2 flex-1">
+                    {reserva.hotel_nombre}
+                  </h3>
+                  {reserva.overall_rating && (
+                    <div className="flex items-center ml-2 flex-shrink-0">
+                      <Star size={16} className="text-yellow-500 fill-yellow-500" />
+                      <span className="ml-1 font-semibold">{reserva.overall_rating}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Destino */}
+                {reserva.destino && (
+                  <div className="flex items-center text-gray-600 mb-3">
+                    <MapPin size={16} className="mr-2 flex-shrink-0" />
+                    <span className="text-sm">{reserva.destino}</span>
+                  </div>
+                )}
+
+                {/* Fechas */}
+                <div className="flex items-start text-gray-700 mb-3">
+                  <Calendar size={16} className="mr-2 mt-1 flex-shrink-0" />
+                  <div className="text-sm">
+                    <div className="font-medium">
+                      {formatFecha(reserva.fecha_entrada)}
+                    </div>
+                    <div className="text-gray-500">
+                      hasta {formatFecha(reserva.fecha_salida)}
+                    </div>
+                    <div className="text-gray-500 mt-1">
+                      {calcularNoches(reserva.fecha_entrada, reserva.fecha_salida)} {
+                        calcularNoches(reserva.fecha_entrada, reserva.fecha_salida) === 1 
+                          ? 'noche' 
+                          : 'noches'
+                      }
+                    </div>
+                  </div>
+                </div>
+
+                {/* Huéspedes */}
+                <div className="flex items-center text-gray-600 mb-4">
+                  <Users size={16} className="mr-2" />
+                  <span className="text-sm">
+                    {reserva.numero_huespedes} {
+                      reserva.numero_huespedes === 1 ? 'huésped' : 'huéspedes'
+                    }
+                  </span>
+                </div>
+
+                {/* Precio y botón */}
+                <div className="flex items-center justify-between pt-4 border-t">
+                  <div>
+                    <div className="text-sm text-gray-500">Precio total</div>
+                    <div className="text-xl font-bold text-green-600">
+                      {reserva.precio_total}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleDeleteClick(reserva)}
+                    disabled={deletingId === reserva.id}
+                    className="p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                    title="Cancelar reserva"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Modal de confirmación de eliminación */}
       {showDeleteModal && reservaToDelete && (
@@ -316,6 +311,24 @@ export default function MisViajesPage() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// Componente principal con Suspense
+export default function MisViajesPage() {
+  return (
+    <>
+      <HeaderHotel />
+      <Suspense fallback={
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-xl">Cargando...</div>
+          </div>
+        </div>
+      }>
+        <MisViajesContent />
+      </Suspense>
     </>
   );
 }
