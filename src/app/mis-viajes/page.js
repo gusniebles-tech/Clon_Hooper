@@ -2,6 +2,8 @@ import { Suspense } from "react";
 import HeaderHotel from "@/components/HeaderHotels";
 import MisViajesContent from "./MisViajesContent";
 
+export const dynamic = "force-dynamic";
+
 // Componente principal con Suspense
 export default function MisViajesPage() {
   return (
