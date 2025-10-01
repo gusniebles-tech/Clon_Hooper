@@ -1,4 +1,4 @@
-// src/app/mis-viajes/page.js
+// src/app/components/MisViajesContent.jsx
 "use client";
 
 import { useState, useEffect, Suspense } from "react";

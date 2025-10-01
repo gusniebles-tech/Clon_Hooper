@@ -55,7 +55,8 @@ export default function HeaderHotel() {
     <header className="px-6 py-8 shadow-md bg-white Headerpading">
       <main className="w-[65vw] m-auto flex items-center justify-between px-6 HPwidth HPcol">
         {/* Logo */}
-        <div className="flex items-center gap-2 logo-area">
+        <div className="flex items-center gap-2 logo-area cursor-pointer"
+          onClick={() => router.push("/")}>
           <Image
             src="/Logo_Horizontal.png"
             alt="Hopper logo"
