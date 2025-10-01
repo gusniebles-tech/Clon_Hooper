@@ -90,7 +90,7 @@ export default function Header({ user, onLogout }) {
                   <Link
                     href="/mis-viajes"
                     className="block px-4 py-2 hover:bg-gray-100 text-[1.3rem] font-medium"
-                    onClick={() => router.push("/misviajes")}
+                    onClick={() => router.push("/mis-viajes")}
                   >
                     Mis Viajes
                   </Link>

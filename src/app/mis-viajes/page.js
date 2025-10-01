@@ -16,6 +16,7 @@ function MisViajesContent() {
   const [deletingId, setDeletingId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [reservaToDelete, setReservaToDelete] = useState(null);
+  
 
   useEffect(() => {
     const checkUserAndFetchReservas = async () => {
