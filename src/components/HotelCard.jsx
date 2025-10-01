@@ -54,7 +54,6 @@ export default function HotelCard({ hotel, destino, checkin, checkout, guests })
   }, []);
 
   const VerDisponibilidad = () => {
- 
     const params = new URLSearchParams({
       destino: destino || '',
       checkin: checkin || '',

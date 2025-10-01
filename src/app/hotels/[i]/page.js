@@ -1,6 +1,8 @@
+// src/app/hotels/[id]/page.js
 import HeaderHotel from "@/components/HeaderHotels";
 import GalleryModal from "@/components/GalleryModal";
 import { Share, ShieldCheck, Wifi, Car, Snowflake, Utensils, Coffee, Dumbbell, Dog, Bath, Hotel, Beer, TreePalm, Plane } from "lucide-react";
+import ReservarButton from "@/components/ReservarButton";
 import "../../styles/DetailsPage.css"
 import "../../styles/HotelClientPage.css";
 
@@ -82,9 +84,7 @@ export default async function HotelDetalle({ params, searchParams }) {
                     <h1 className="text-3xl font-bold flex items-center">{hotel.name}</h1>
                     <div className="flex items-center">
                         <Share size={20} className="me-3" />
-                        <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 text-[1.4rem] font-medium">
-                            Reservar
-                        </button>
+                        <ReservarButton property_token={hotel.property_token} />
                     </div>
                 </section>
 

@@ -55,11 +55,11 @@ export default function SearchBar() {
         <>
             <div className="bg-white rounded-full w-[78rem] max-w-[78rem] flex items-center gap-6 pointer-events-auto border border-gray-200 searchBar">
                 <div className="flex flex-col flex-1 px-8 py-2 edge">
-                    <label className="text-gray-600 mb-1">Dónde</label>
+                    <label className="text-gray-600">Dónde</label>
                     <input
                         type="text"
                         placeholder="Buscar destinos"
-                        className="input-estilo" value={destino}
+                        className="input-estilo text-[1.4rem] font-medium" value={destino}
                         onChange={(e) => setDestino(e.target.value)}
                     />
                     {sugerencias.length > 0 && (
@@ -68,7 +68,7 @@ export default function SearchBar() {
                                 <li
                                     key={index}
                                     onClick={() => seleccion(ciudad)}
-                                    className="x-4 py-2 cursor-pointer hover:bg-gray-100"
+                                    className="x-4 py-2 cursor-pointer hover:bg-gray-100 text-[1.4rem] font-medium"
                                 >
                                     {ciudad}
                                 </li>
@@ -81,24 +81,24 @@ export default function SearchBar() {
                     <div className="flex gap-1 justify-between">
                         <input
                             type="date"
-                            className="input-estilo"
+                            className="input-estilo text-[1.2rem] font-medium"
                             value={checkIn}
                             onChange={(e) => setCheckIn(e.target.value)}
                         />
                         <input
                             type="date"
-                            className="input-estilo"
+                            className="input-estilo text-[1.2rem] font-medium"
                             value={checkOut}
                             onChange={(e) => setCheckOut(e.target.value)}
                         />
                     </div>
                 </div>
-                <div className="flex flex-col flex-1 px-8 py-2 edge">
+                <div className="flex flex-col flex-1 px-4 py-2 edge">
                     <label className="text-gray-600 mb-1">Huéspedes</label>
                     <input
                         type="number"
                         placeholder="2 huéspedes"
-                        className="input-estilo"
+                        className="input-estilo text-[1.2rem] font-medium"
                         value={guests}
                         onChange={(e) => setGuests(e.target.value)}
                     />

@@ -77,7 +77,7 @@ export default function AuthModal({ onClose }) {
                         placeholder="Nombre completo"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="border p-4 rounded-[1rem] mb-4"
+                        className="border p-4 rounded-[1rem] mb-4 text-[1.4rem] font-medium"
                         required
                     />
                     <input
@@ -85,14 +85,14 @@ export default function AuthModal({ onClose }) {
                         placeholder="Correo electrónico"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="border p-4 rounded-[1rem] mb-4"
+                        className="border p-4 rounded-[1rem] mb-4 text-[1.4rem] font-medium" 
                     />
                     <input
                         type="password"
                         placeholder="Contraseña"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="border p-4 rounded-[1rem] mb-4"
+                        className="border p-4 rounded-[1rem] mb-4 text-[1.4rem] font-medium"
                     />
 
                     <button

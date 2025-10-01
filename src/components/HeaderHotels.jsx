@@ -1,13 +1,17 @@
 "use client";
 import "../app/styles/HotelClientPage.css";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Globe, Search, User } from "lucide-react"; // ícono
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import AuthModal from "./AuthModal";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function HeaderHotel() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { user, logout } = useAuth();
 
   const [destino, setDestino] = useState("");
   const [checkin, setCheckin] = useState("");
@@ -26,6 +30,26 @@ export default function HeaderHotel() {
     const params = new URLSearchParams({ destino, checkin, checkout, guests });
     router.push(`/hotels?${params.toString()}`);
   };
+
+  const [showModal, setShowModal] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  const name = user?.user_metadata?.displayName || user?.user_metadata?.full_name || "";
+  const firstName = name.split(" ")[0] || user?.email;
+
+  // Cierra el menú si se hace clic fuera
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className="px-6 py-8 shadow-md bg-white Headerpading">
@@ -89,12 +113,50 @@ export default function HeaderHotel() {
         {/* Idioma y login */}
         <div className="flex items-center gap-4 login-menu-area">
           <Globe size={20} className="HdNone" />
-          <button className="px-[2.4rem] py-[1rem] text-[1.6rem] font-semibold border rounded-[1.2rem] text-blue-600 hover:bg-blue-50 Bmediaq flex">
-            <User className="text-blue-600 me-2 hidden" size={20} />
-            Iniciar sesión
-          </button>
+          {user ? (
+            <div className="relative" ref={menuRef}>
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="rounded-[1.2rem] px-[2.4rem] py-[1rem] rounded-2xl text-blue-600 font-semibold flex items-center cursor-pointer text-[1.6rem] hover:bg-blue-50 Bmedia"
+              >
+                <User size={20} className="me-2" />
+                {firstName}
+              </button>
+
+              {menuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg text-black">
+                  <Link
+                    href="/mis-viajes"
+                    className="block px-4 py-2 hover:bg-gray-100 text-[1.3rem] font-medium"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Mis Viajes
+                  </Link>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setMenuOpen(false);
+                    }}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100 text-[1.3rem] font-medium"
+                  >
+                    Cerrar Sesión
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowModal(true)}
+              className="border rounded-[1.2rem] px-[2.4rem] py-[1rem] rounded-2xl text-blue-600 font-semibold flex items-center cursor-pointer text-[1.6rem] hover:bg-blue-50 Bmedia"
+            >
+              Iniciar Sesión
+            </button>
+          )}
         </div>
       </main>
+
+      {/* MODAL DE LOGIN */}
+      {showModal && <AuthModal onClose={() => setShowModal(false)} />}
     </header>
   );
 }
