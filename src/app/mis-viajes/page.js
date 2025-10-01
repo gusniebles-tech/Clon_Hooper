@@ -1,8 +1,6 @@
 import { Suspense } from "react";
 import HeaderHotel from "@/components/HeaderHotels";
-import MisViajesContent from "./MisViajesContent";
-
-export const revalidate = 0;
+import MisViajesContent from "@/components/MisViajesContent";
 
 // Componente principal con Suspense
 export default function MisViajesPage() {
