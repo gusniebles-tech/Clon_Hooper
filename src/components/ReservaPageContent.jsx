@@ -1,5 +1,7 @@
 // src/app/reservas/[i]/page.js
 "use client";
+import "../app/globals.css";
+
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useParams, useRouter } from "next/navigation";
@@ -74,13 +76,13 @@ export default function ReservaPageContent() {
         });
 
         const res = await fetch(`/api/hotels?${params.toString()}`);
-        
+
         if (!res.ok) {
           throw new Error("Error al cargar el hotel");
         }
 
         const data = await res.json();
-        
+
         if (data.ok && data.hotel) {
           setHotel(data.hotel);
         } else {
@@ -114,10 +116,10 @@ export default function ReservaPageContent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validar que todos los campos estén llenos
-    if (!formData.nombre.trim() || !formData.apellido.trim() || 
-        !formData.email.trim() || !formData.telefono.trim()) {
+    if (!formData.nombre.trim() || !formData.apellido.trim() ||
+      !formData.email.trim() || !formData.telefono.trim()) {
       alert("Por favor completa todos los campos del formulario");
       return;
     }
@@ -201,7 +203,7 @@ export default function ReservaPageContent() {
     return (
       <>
         <HeaderHotel />
-        <div className="max-w-6xl mx-auto p-6">
+        <div className="max-w-6xl mx-auto p-6 ">
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
             <p className="font-bold">Error</p>
             <p>{error || "No se encontró información del hotel"}</p>
@@ -214,7 +216,7 @@ export default function ReservaPageContent() {
   return (
     <>
       <HeaderHotel />
-      <div className="max-w-6xl mx-auto p-6">
+      <div className="max-w-6xl mx-auto p-6 wMobile">
         {/* Pasos */}
         <div className="flex items-center justify-center mb-8 text-[1.4rem] font-medium">
           <div className="flex items-center">
@@ -236,11 +238,11 @@ export default function ReservaPageContent() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Columna izquierda */}
           <div className="lg:col-span-2">
-            <h2 className="text-2xl font-bold mb-4">Tu viaje</h2>
-            <div className="mb-6 text-gray-700">
-              <p><strong>Fechas:</strong> {checkin} → {checkout}</p>
-              <p><strong>Habitación:</strong> ({guests} {guests === "1" ? "adulto" : "adultos"})</p>
-              <p><strong>Noches:</strong> {calcularNoches()}</p>
+            <h2 className="text-[2.4rem] font-bold mb-4">Tu viaje</h2>
+            <div className="mb-6">
+              <p><span className="text-[1.4rem] font-bold">Fechas: </span> <span className="text-[1.2rem] font-medium">{checkin} → {checkout}</span></p>
+              <p><span className="text-[1.4rem] font-bold">Habitación: </span> <span className="text-[1.2rem] font-medium">{guests} {guests === "1" ? "adulto" : "adultos"}</span></p>
+              <p><span className="text-[1.4rem] font-bold">Noches: </span> <span className="text-[1.2rem] font-medium"> {calcularNoches()}</span></p>
             </div>
 
             <h2 className="text-2xl font-bold mb-4">Ingresa tus datos</h2>
@@ -251,7 +253,7 @@ export default function ReservaPageContent() {
                 placeholder="Nombre *"
                 value={formData.nombre}
                 onChange={handleChange}
-                className="border p-3 rounded-lg focus:outline-none focus:border-blue-500"
+                className="border p-3 rounded-lg focus:outline-none focus:border-blue-500 text-[1.2rem] font-medium"
                 required
               />
               <input
@@ -260,7 +262,7 @@ export default function ReservaPageContent() {
                 placeholder="Apellido *"
                 value={formData.apellido}
                 onChange={handleChange}
-                className="border p-3 rounded-lg focus:outline-none focus:border-blue-500"
+                className="border p-3 rounded-lg focus:outline-none focus:border-blue-500 text-[1.2rem] font-medium"
                 required
               />
               <input
@@ -269,7 +271,7 @@ export default function ReservaPageContent() {
                 placeholder="Correo electrónico *"
                 value={formData.email}
                 onChange={handleChange}
-                className="border p-3 rounded-lg col-span-2 focus:outline-none focus:border-blue-500"
+                className="border p-3 rounded-lg col-span-2 focus:outline-none focus:border-blue-500 text-[1.2rem] font-medium"
                 required
               />
               <input
@@ -278,14 +280,14 @@ export default function ReservaPageContent() {
                 placeholder="Número de teléfono *"
                 value={formData.telefono}
                 onChange={handleChange}
-                className="border p-3 rounded-lg col-span-2 focus:outline-none focus:border-blue-500"
+                className="border p-3 rounded-lg col-span-2 focus:outline-none focus:border-blue-500 text-[1.2rem] font-medium"
                 required
               />
 
               <button
                 type="submit"
                 disabled={submitting}
-                className="col-span-2 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="col-span-2 bg-blue-600 text-white py-3 rounded-lg font-semibold text-[1.4rem] hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {submitting ? "Procesando..." : "Continuar al paso final"}
               </button>
@@ -294,31 +296,32 @@ export default function ReservaPageContent() {
 
           {/* Columna derecha: hotel */}
           <div className="border rounded-2xl p-4 shadow-sm h-fit sticky top-4">
-            <div className="flex gap-4 mb-4">
-              <img
-                src={hotel.images?.[0] || "https://placehold.co/200x150?text=Sin+Imagen"}
-                alt={hotel.name}
-                className="w-24 h-24 object-cover rounded-lg"
-              />
-              <div>
-                <h3 className="font-bold">{hotel.name}</h3>
-                <p className="text-sm text-gray-600">{destino}</p>
+            <div className="mb-2">
+              <div className="w-[100%]">
+                <img
+                  src={hotel.images?.[0] || "https://placehold.co/200x150?text=Sin+Imagen"}
+                  alt={hotel.name}
+                  className="w-[100%] h-auto object-cover rounded-lg"
+                />
+              </div>
+              <div className="mt-4">
+                <h3 className="font-bold text-[1.2rem]">{hotel.name}</h3>
+                <p className="text-[1.2rem] font-medium text-gray-600">{destino}</p>
                 {hotel.overall_rating && (
                   <p className="text-yellow-500">
                     {"★".repeat(Math.round(hotel.overall_rating))}
-                    {hotel.overall_rating && ` ${hotel.overall_rating}`}
+                    {hotel.overall_rating && ` ${hotel.overall_rating.toFixed(1)}`}
                   </p>
-                )}
-              </div>
+                )}              </div>
             </div>
-            <h4 className="font-semibold mb-2">Desglose de precio</h4>
-            <div className="flex justify-between text-sm mb-1">
+            <h4 className="font-semibold text-[1.2rem] mb-2">Desglose de precio</h4>
+            <div className="flex justify-between text-[1.2rem] font-medium mb-1">
               <span>Precio por noche</span>
-              <span>{hotel.rate_per_night?.lowest || "N/A"}</span>
+              <span className="font-semibold">{hotel.rate_per_night?.lowest || "N/A"}</span>
             </div>
-            <div className="flex justify-between text-sm mb-1">
+            <div className="flex justify-between text-[1.2rem] font-medium mb-1">
               <span>Número de noches</span>
-              <span>{calcularNoches()}</span>
+              <span className="font-semibold">{calcularNoches()}</span>
             </div>
             <div className="flex justify-between font-bold text-lg mt-3 pt-3 border-t">
               <span>Total</span>
@@ -339,15 +342,15 @@ export default function ReservaPageContent() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                 </svg>
               </div>
-              
+
               <h3 className="text-2xl font-bold text-gray-900 mb-2">
                 ¡Reserva Confirmada!
               </h3>
-              
+
               <p className="text-gray-600 mb-6">
                 Tu reserva ha sido procesada exitosamente. Recibirás un email de confirmación en breve.
               </p>
-              
+
               <div className="bg-gray-50 rounded-lg p-4 mb-6 text-left">
                 <p className="text-sm text-gray-700 mb-1">
                   <strong>Hotel:</strong> {hotel.name}
@@ -362,7 +365,7 @@ export default function ReservaPageContent() {
                   <strong>Huéspedes:</strong> {guests}
                 </p>
               </div>
-              
+
               <button
                 onClick={handleModalClose}
                 className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition"

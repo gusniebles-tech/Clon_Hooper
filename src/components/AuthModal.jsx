@@ -1,3 +1,4 @@
+// src/app/components/AuthModal.jsx
 "use client";
 
 import { useState } from "react";
@@ -42,7 +43,7 @@ export default function AuthModal({ onClose }) {
             options: {
                 data: {
                     name: email.split("@")[0], // Nombre genérico
-                    avatar_url: "/default-avatar.png", // 👈 logo genérico
+                    avatar_url: "/default-avatar.png",
                 },
             },
         });

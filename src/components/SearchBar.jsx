@@ -54,7 +54,7 @@ export default function SearchBar() {
     return (
         <>
             <div className="bg-white rounded-full w-[78rem] max-w-[78rem] flex items-center gap-6 pointer-events-auto border border-gray-200 searchBar">
-                <div className="flex flex-col flex-1 px-8 py-2 edge">
+                <div className="relative flex flex-col flex-1 px-8 py-2 edge">
                     <label className="text-gray-600">Dónde</label>
                     <input
                         type="text"
@@ -63,7 +63,7 @@ export default function SearchBar() {
                         onChange={(e) => setDestino(e.target.value)}
                     />
                     {sugerencias.length > 0 && (
-                        <ul className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg mt-1 shadow-lg z-50 max-h-60 overflow-y-auto">
+                        <ul className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg mt-1 shadow-lg z-5 max-h-60 overflow-y-auto">
                             {sugerencias.map((ciudad, index) => (
                                 <li
                                     key={index}
@@ -93,7 +93,7 @@ export default function SearchBar() {
                         />
                     </div>
                 </div>
-                <div className="flex flex-col flex-1 px-4 py-2 edge">
+                <div className="flex flex-col flex-1 px-4 py-2 edge huespedesmobil">
                     <label className="text-gray-600 mb-1">Huéspedes</label>
                     <input
                         type="number"

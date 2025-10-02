@@ -1,6 +1,5 @@
 // src/app/mis-viajes/page.js
 import { Suspense } from "react";
-import HeaderHotel from "@/components/HeaderHotels";
 import MisViajesContent from "@/components/MisViajesContent";
 
 // Componente principal con Suspense

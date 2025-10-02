@@ -53,7 +53,7 @@ export default function HeaderHotel() {
 
   return (
     <header className="px-6 py-8 shadow-md bg-white Headerpading">
-      <main className="w-[65vw] m-auto flex items-center justify-between px-6 HPwidth HPcol">
+      <main className="w-[70vw] m-auto flex items-center justify-between px-6 HPwidth HPcol">
         {/* Logo */}
         <div className="flex items-center gap-2 logo-area cursor-pointer"
           onClick={() => router.push("/")}>
@@ -69,7 +69,7 @@ export default function HeaderHotel() {
         {/* Barra de búsqueda */}
         <form
           onSubmit={handleSearch}
-          className="flex items-center border rounded-full shadow-sm px-3 py-2 gap-2 flex-1 max-w-2xl mx-6 menu-area formQ w-[100%]"
+          className="flex items-center border justify-between rounded-full shadow-sm px-3 py-2 gap-2 flex-1 max-w-fit w-fit mx-6 menu-area formQ"
         >
           <div className="destino">
             <input
@@ -77,7 +77,7 @@ export default function HeaderHotel() {
               placeholder="Buscar destino..."
               value={destino}
               onChange={(e) => setDestino(e.target.value)}
-              className="outline-none border-r pr-2 text-base wInput"
+              className="outline-none border-r pr-2 wInput text-[1.2rem] font-medium"
             />
           </div>
           <div className="fecha flex ">
@@ -85,20 +85,20 @@ export default function HeaderHotel() {
               type="date"
               value={checkin}
               onChange={(e) => setCheckin(e.target.value)}
-              className="outline-none text-[1rem]"
+              className="outline-none text-[1rem] text-[1.2rem] font-medium"
             />
             <input
               type="date"
               value={checkout}
               onChange={(e) => setCheckout(e.target.value)}
-              className="outline-none text-[1rem]"
+              className="outline-none text-[1rem] text-[1.2rem] font-medium"
             />
             <input
               type="number"
               min="1"
               value={guests}
               onChange={(e) => setGuests(e.target.value)}
-              className="outline-none w-16 text-[1rem] wInput"
+              className="outline-none w-16 text-[1rem] wInput text-[1.2rem] font-medium"
             />
           </div>
           <div className="btn">
@@ -129,7 +129,7 @@ export default function HeaderHotel() {
                   <Link
                     href="/mis-viajes"
                     className="block px-4 py-2 hover:bg-gray-100 text-[1.3rem] font-medium"
-                    onClick={() => setMenuOpen(false)}
+                    onClick={() => router.push("/mis-viajes")}
                   >
                     Mis Viajes
                   </Link>

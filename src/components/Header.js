@@ -60,7 +60,7 @@ export default function Header({ user, onLogout }) {
           </Link>
           <Link
             href="/ofertas"
-            className={`mx-10 flex menuMobile ${pathname === "/ofertas" ? "btn-activo" : "btn-inactivo"}`}
+            className={`DnoneOfertas mx-10 flex menuMobile ${pathname === "/ofertas" ? "btn-activo" : "btn-inactivo"}`}
           >
             <Tag className="me-2" color="white" size={20} /> Ofertas
           </Link>

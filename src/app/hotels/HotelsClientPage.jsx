@@ -45,7 +45,7 @@ export default function Hoteles() {
     return (
         <>
             <HeaderHotel />
-            <main className="w-[65vw] m-auto HPwidth">
+            <main className="w-[70vw] m-auto HPwidth">
                 <div className="flex gap-6 p-6 card">
                     <SidebarFilters />
 
