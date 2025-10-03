@@ -2,6 +2,7 @@ import HeaderHotel from "@/components/HeaderHotels";
 import GalleryModal from "@/components/GalleryModal";
 import { Share, ShieldCheck, Wifi, Car, Snowflake, Utensils, Coffee, Dumbbell, Dog, Bath, Hotel, Beer, TreePalm, Plane } from "lucide-react";
 import ReservarButton from "@/components/ReservarButton";
+import FooterViajes from "@/components/FooterViajes";
 import "../../styles/DetailsPage.css"
 import "../../styles/HotelClientPage.css";
 
@@ -161,6 +162,9 @@ export default async function HotelDetalle({ params, searchParams }) {
                     </aside>
                 </section>
             </main>
+            <section className="w-full">
+                <FooterViajes />
+            </section>
         </>
     );
 }

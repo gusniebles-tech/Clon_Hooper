@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { Calendar, Users, MapPin, Trash2, Star } from "lucide-react";
 import HeaderHotel from "./HeaderHotels";
+import FooterViajes from "./FooterViajes";
 
 export default function MisViajesContent() {
   const router = useRouter();
@@ -140,7 +141,7 @@ export default function MisViajesContent() {
 
   return (
     <>
-    <HeaderHotel/>
+      <HeaderHotel />
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">Mis Viajes</h1>
@@ -181,10 +182,10 @@ export default function MisViajesContent() {
                   />
                   <div className="absolute top-3 right-3">
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${reserva.estado === 'confirmada' || reserva.estado === 'confirmado'
-                        ? 'bg-green-100 text-green-800'
-                        : reserva.estado === 'pendiente'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-red-100 text-red-800'
+                      ? 'bg-green-100 text-green-800'
+                      : reserva.estado === 'pendiente'
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-red-100 text-red-800'
                       }`}>
                       {reserva.estado === 'confirmado' ? 'Confirmada' :
                         reserva.estado.charAt(0).toUpperCase() + reserva.estado.slice(1)}
@@ -308,6 +309,9 @@ export default function MisViajesContent() {
           </div>
         )}
       </div>
+      <section className="w-full">
+        <FooterViajes />
+      </section>
     </>
   );
 }

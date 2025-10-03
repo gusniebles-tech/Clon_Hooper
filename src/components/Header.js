@@ -52,13 +52,13 @@ export default function Header({ user, onLogout }) {
             <BedSingle className="me-2" color="white" size={20} /> Alojamientos
           </Link>
           <Link
-            href="/vuelos"
+            href="#"
             className={`mx-10 flex menuMobile ${pathname === "/vuelos" ? "btn-activo" : "btn-inactivo"}`}
           >
             <Plane className="me-2" color="white" size={20} /> Vuelos
           </Link>
           <Link
-            href="/ofertas"
+            href="#"
             className={`DnoneOfertas mx-10 flex menuMobile ${pathname === "/ofertas" ? "btn-activo" : "btn-inactivo"}`}
           >
             <Tag className="me-2" color="white" size={20} /> Ofertas

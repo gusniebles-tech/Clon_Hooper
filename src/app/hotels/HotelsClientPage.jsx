@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import SidebarFilters from "@/components/SidebarFilters";
 import HotelList from "@/components/HotelList";
 import HeaderHotel from "@/components/HeaderHotels";
+import FooterViajes from "@/components/FooterViajes";
 import "../styles/HotelClientPage.css"
 
 export default function Hoteles() {
@@ -64,6 +65,9 @@ export default function Hoteles() {
                     </div>
                 </div>
             </main>
+            <section className="w-full">
+                <FooterViajes />
+            </section>
         </>
     );
 }

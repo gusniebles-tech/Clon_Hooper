@@ -53,8 +53,8 @@ export default function SearchBar() {
 
     return (
         <>
-            <div className="bg-white rounded-full w-[78rem] max-w-[78rem] flex items-center gap-6 pointer-events-auto border border-gray-200 searchBar">
-                <div className="relative flex flex-col flex-1 px-8 py-2 edge">
+            <div className="bg-white rounded-full w-[100%] w-fit flex items-center gap-6 pointer-events-auto border border-gray-200 searchBar">
+                <div className="relative flex flex-col flex-1 px-6 py-2 edge">
                     <label className="text-gray-600">Dónde</label>
                     <input
                         type="text"
@@ -76,7 +76,7 @@ export default function SearchBar() {
                         </ul>
                     )}
                 </div>
-                <div className="flex flex-col flex-1 px-8 py-2 edge">
+                <div className="flex flex-col flex-1 px-6 py-2 edge">
                     <label className="text-gray-600 mb-1">Fechas</label>
                     <div className="flex gap-1 justify-between">
                         <input
@@ -93,7 +93,7 @@ export default function SearchBar() {
                         />
                     </div>
                 </div>
-                <div className="flex flex-col flex-1 px-4 py-2 edge huespedesmobil">
+                <div className="flex flex-col flex-1 px-6 edge huespedesmobil">
                     <label className="text-gray-600 mb-1">Huéspedes</label>
                     <input
                         type="number"

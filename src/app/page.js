@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Carrusel from "@/components/Carrusel";
 import SearchBar from "@/components/SearchBar";
 import { useAuth } from "@/hooks/useAuth";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const { user, logout } = useAuth();
@@ -13,9 +14,12 @@ export default function Home() {
         <Carrusel />
         <Header user={user} onLogout={logout} />
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none p-6">
-          <SearchBar/>
+          <SearchBar />
         </div>
       </main>
+      <section className="w-full">
+        <Footer />
+      </section>
     </>
   );
 }
