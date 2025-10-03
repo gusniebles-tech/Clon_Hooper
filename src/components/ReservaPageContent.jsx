@@ -1,4 +1,3 @@
-// src/app/reservas/[i]/page.js
 "use client";
 import "../app/globals.css";
 
@@ -15,19 +14,16 @@ export default function ReservaPageContent() {
 
   const propertyToken = params?.i;
 
-  // Traemos datos de la URL (checkin, checkout, guests, destino)
   const checkin = searchParams.get("checkin") || "";
   const checkout = searchParams.get("checkout") || "";
   const guests = searchParams.get("guests") || "1";
   const destino = searchParams.get("destino") || "";
 
-  // Estado hotel
   const [hotel, setHotel] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
 
-  // Estado formulario
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
@@ -35,22 +31,18 @@ export default function ReservaPageContent() {
     telefono: "",
   });
 
-  // Estados para el modal y envío
   const [submitting, setSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [reservaId, setReservaId] = useState(null);
 
-  // Verificar usuario autenticado
   useEffect(() => {
     const checkUser = async () => {
       const { data } = await supabase.auth.getUser();
       if (!data.user) {
-        // Si no hay usuario, redirigir al hotel
         router.push(`/hotels/${propertyToken}`);
         return;
       }
       setUser(data.user);
-      // Pre-llenar el email del usuario
       setFormData(prev => ({
         ...prev,
         email: data.user.email || ""
@@ -59,14 +51,12 @@ export default function ReservaPageContent() {
     checkUser();
   }, [propertyToken, router]);
 
-  // Traer info del hotel por property_token
   useEffect(() => {
     async function fetchHotel() {
       try {
         setLoading(true);
         setError(null);
 
-        // Construir URL con todos los parámetros
         const params = new URLSearchParams({
           property_token: propertyToken,
           destino: destino,
@@ -117,21 +107,18 @@ export default function ReservaPageContent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar que todos los campos estén llenos
     if (!formData.nombre.trim() || !formData.apellido.trim() ||
       !formData.email.trim() || !formData.telefono.trim()) {
       alert("Por favor completa todos los campos del formulario");
       return;
     }
 
-    // Validar email básico
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       alert("Por favor ingresa un email válido");
       return;
     }
 
-    // Validar teléfono (al menos 7 dígitos)
     if (formData.telefono.length < 7) {
       alert("Por favor ingresa un número de teléfono válido");
       return;
@@ -142,7 +129,6 @@ export default function ReservaPageContent() {
     try {
       const noches = calcularNoches();
 
-      // Guardar en Supabase
       const { data: reserva, error: insertError } = await supabase
         .from("reservas")
         .insert([
@@ -171,7 +157,6 @@ export default function ReservaPageContent() {
         throw insertError;
       }
 
-      // Mostrar modal de éxito
       setReservaId(reserva.id);
       setShowModal(true);
 

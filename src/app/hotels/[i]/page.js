@@ -1,4 +1,3 @@
-// src/app/hotels/[id]/page.js
 import HeaderHotel from "@/components/HeaderHotels";
 import GalleryModal from "@/components/GalleryModal";
 import { Share, ShieldCheck, Wifi, Car, Snowflake, Utensils, Coffee, Dumbbell, Dog, Bath, Hotel, Beer, TreePalm, Plane } from "lucide-react";
@@ -10,7 +9,6 @@ import "../../styles/HotelClientPage.css";
 async function getHotel(property_token, searchParams = {}) {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-    // Construir los parámetros de búsqueda
     const params = new URLSearchParams({
         property_token,
         destino: searchParams.destino || "",
@@ -32,8 +30,6 @@ async function getHotel(property_token, searchParams = {}) {
         return null;
     }
 }
-
-
 
 const amenityIcons = {
     "Free Wi-Fi": Wifi,
@@ -118,7 +114,7 @@ export default async function HotelDetalle({ params, searchParams }) {
                             />
                         ))}
 
-                        {/* Última casilla: Ver galería */}
+                        {/* Ver galería */}
                         {hotel.images.length > 5 && (
                             <div className="absolute right-4 bottom-4 rounded-lg overflow-hidden cursor-pointer w-auto">
                                 <GalleryModal images={hotel.images} />
@@ -127,7 +123,7 @@ export default async function HotelDetalle({ params, searchParams }) {
                     </div>
                 </section>
 
-                {/* Descripción genérica */}
+                {/* Descripción */}
                 <section className="mt-6 flex descripcion">
                     <div className="text-[1.4rem] text-black font-medium leading-relaxed pr-6">
                         <p className="">
@@ -144,7 +140,7 @@ export default async function HotelDetalle({ params, searchParams }) {
                         </p>
                     </div>
 
-                    {/* Servicios populares */}
+                    {/* Servicios */}
                     <aside className="">
                         <h2 className="text-xl font-semibold mb-4">Servicios</h2>
                         <div className=" text-gray-700 amenities540px">

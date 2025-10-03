@@ -1,4 +1,3 @@
-// src/app/components/MisViajesContent.jsx
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
@@ -7,7 +6,6 @@ import { supabase } from "@/lib/supabaseClient";
 import { Calendar, Users, MapPin, Trash2, Star } from "lucide-react";
 import HeaderHotel from "./HeaderHotels";
 
-// Componente interno que usa los hooks
 export default function MisViajesContent() {
   const router = useRouter();
   const [reservas, setReservas] = useState([]);
@@ -21,7 +19,7 @@ export default function MisViajesContent() {
   useEffect(() => {
     const checkUserAndFetchReservas = async () => {
       try {
-        // Verificar usuario autenticado
+
         const { data: { user: currentUser }, error: userError } = await supabase.auth.getUser();
 
         if (userError || !currentUser) {
@@ -31,7 +29,6 @@ export default function MisViajesContent() {
 
         setUser(currentUser);
 
-        // Obtener reservas del usuario
         const { data: reservasData, error: reservasError } = await supabase
           .from("reservas")
           .select("*")
@@ -43,11 +40,9 @@ export default function MisViajesContent() {
           return;
         }
 
-        // Obtener imágenes de los hoteles
         const reservasConImagenes = await Promise.all(
           reservasData.map(async (reserva) => {
             try {
-              // Hacer fetch a la API para obtener imagen del hotel
               const params = new URLSearchParams({
                 property_token: reserva.property_token,
                 destino: reserva.destino || "",
@@ -104,7 +99,6 @@ export default function MisViajesContent() {
 
       if (error) throw error;
 
-      // Actualizar la lista de reservas
       setReservas(reservas.filter(r => r.id !== reservaToDelete.id));
       setShowDeleteModal(false);
       setReservaToDelete(null);

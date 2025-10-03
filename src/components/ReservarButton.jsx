@@ -12,7 +12,6 @@ export default function ReservarButton({ property_token }) {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const fromModal = useRef(false);
 
-  // Verificar usuario actual al cargar
   useEffect(() => {
     const checkUser = async () => {
       const { data } = await supabase.auth.getUser();
@@ -20,14 +19,12 @@ export default function ReservarButton({ property_token }) {
     };
     checkUser();
 
-    // Suscripción a cambios de sesión
     const { data: listener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         setUser(session?.user || null);
 
         if (session?.user && fromModal.current) {
           setShowAuthModal(false);
-          // Construir URL con parámetros
           const url = buildReservaUrl();
           router.push(url);
         }
@@ -39,7 +36,6 @@ export default function ReservarButton({ property_token }) {
     };
   }, [property_token, router, searchParams]);
 
-  // Función para construir la URL de reserva con todos los parámetros
   const buildReservaUrl = () => {
     const destino = searchParams.get("destino") || "";
     const checkin = searchParams.get("checkin") || "";

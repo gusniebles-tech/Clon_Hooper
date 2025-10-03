@@ -1,4 +1,3 @@
-// src/components/SidebarFilters.jsx
 "use client";
 import "../app/styles/HotelClientPage.css";
 

@@ -81,13 +81,13 @@ export default function SearchBar() {
                     <div className="flex gap-1 justify-between">
                         <input
                             type="date"
-                            className="input-estilo text-[1.2rem] font-medium"
+                            className="block w-full text-gray-800 bg-white rounded-lg text-[1.2rem] font-medium"
                             value={checkIn}
                             onChange={(e) => setCheckIn(e.target.value)}
                         />
                         <input
                             type="date"
-                            className="input-estilo text-[1.2rem] font-medium"
+                            className="block w-full text-gray-800 bg-white rounded-lg text-[1.2rem] font-medium"
                             value={checkOut}
                             onChange={(e) => setCheckOut(e.target.value)}
                         />

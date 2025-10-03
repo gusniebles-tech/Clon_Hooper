@@ -16,7 +16,6 @@ export default function Header({ user, onLogout }) {
   const name = user?.user_metadata?.displayName || user?.user_metadata?.full_name || "";
   const firstName = name.split(" ")[0] || user?.email;
 
-  // Cierra el menú si se hace clic fuera
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {

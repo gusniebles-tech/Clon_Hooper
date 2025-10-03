@@ -1,4 +1,3 @@
-// src/app/components/AuthModal.jsx
 "use client";
 
 import { useState } from "react";

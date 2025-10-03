@@ -1,4 +1,3 @@
-// src/components/HotelCard.jsx
 "use client";
 import { Star, ShieldCheck, Wifi, Car, Snowflake, Utensils, Coffee, Dumbbell, Dog, Bath, Hotel, Beer, TreePalm, Plane, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";

@@ -1,8 +1,6 @@
-// src/app/mis-viajes/page.js
 import { Suspense } from "react";
 import MisViajesContent from "@/components/MisViajesContent";
 
-// Componente principal con Suspense
 export default function MisViajesPage() {
   return (
     <>

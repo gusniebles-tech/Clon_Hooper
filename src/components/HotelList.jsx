@@ -1,4 +1,3 @@
-// src/components/HotelList.jsx
 import HotelCard from "./HotelCard";
 
 export default function HotelList({ hotels = [], destino, checkin, checkout, guests }) {
