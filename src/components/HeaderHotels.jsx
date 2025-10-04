@@ -50,6 +50,15 @@ export default function HeaderHotel() {
     };
   }, []);
 
+  const fechaActual = new Date().toISOString().split('T')[0];
+
+  const getMinCheckout = () => {
+    if (!checkin) return fechaActual;
+    const fecha = new Date(checkin);
+    fecha.setDate(fecha.getDate() + 1);
+    return fecha.toISOString().split('T')[0];
+  };
+
   return (
     <header className="px-6 py-8 shadow-md bg-white Headerpading">
       <main className="w-[70vw] m-auto flex items-center justify-between px-6 HPwidth HPcol">
@@ -77,20 +86,25 @@ export default function HeaderHotel() {
               value={destino}
               onChange={(e) => setDestino(e.target.value)}
               className="outline-none border-r pr-2 wInput text-[1.2rem] font-medium"
+              required
             />
           </div>
           <div className="fecha flex ">
             <input
               type="date"
               value={checkin}
+              min={fechaActual}
               onChange={(e) => setCheckin(e.target.value)}
               className="outline-none text-[1rem] text-[1.2rem] font-medium"
+              required
             />
             <input
               type="date"
               value={checkout}
+              min={getMinCheckout()}
               onChange={(e) => setCheckout(e.target.value)}
-              className="outline-none text-[1rem] text-[1.2rem] font-medium"
+              className="outline-none text-[1rem] text-[1.2rem] font-medium me-2"
+              readOnly
             />
             <input
               type="number"

@@ -1,18 +1,5 @@
 import { NextResponse } from "next/server";
 
-const ciudades = [
-    "Bogotá",
-    "Medellín",
-    "Cali",
-    "Cartagena",
-    "Barranquilla",
-    "Santa Marta",
-    "Bucaramanga",
-    "Manizales",
-    "Pereira",
-    "Cúcuta",
-];
-
 export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const destino = searchParams.get("destino");
@@ -21,14 +8,6 @@ export async function GET(req) {
     const guests = searchParams.get("guests");
     const sugerencias = searchParams.get("sugerencias");
     const property_token = searchParams.get("property_token");
-
-    // Sugerencias de ciudades - No funciona
-    if (sugerencias && destino) {
-        const match = ciudades.filter((c) =>
-            c.toLocaleLowerCase().includes(destino.toLocaleLowerCase())
-        );
-        return NextResponse.json({ ok: true, ciudades: match });
-    }
 
     if (!destino && !property_token) {
         return NextResponse.json(

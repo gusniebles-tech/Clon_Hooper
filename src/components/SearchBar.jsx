@@ -11,13 +11,34 @@ export default function SearchBar() {
     const [checkOut, setCheckOut] = useState("");
     const [guests, setGuests] = useState(2);
     const [sugerencias, setSugerencias] = useState([]);
+    const [cargando, setCargando] = useState(false);
 
-    const debouncedDestino = useDebounce(destino, 200);
+    const debouncedDestino = useDebounce(destino, 300);
     const router = useRouter();
+
+    const fechaActual = new Date().toISOString().split('T')[0];
+
+    const getMinCheckout = () => {
+        if (!checkIn) return fechaActual;
+        const fecha = new Date(checkIn);
+        fecha.setDate(fecha.getDate() + 1);
+        return fecha.toISOString().split('T')[0];
+    };
 
     const searchButton = (e) => {
         e.preventDefault();
-        if (!destino.trim()) return;
+        if (!destino.trim()) {
+            alert('Por favor ingresa un destino');
+            return;
+        }
+        if (!checkIn) {
+            alert('Por favor selecciona una fecha de check-in');
+            return;
+        }
+        if (!checkOut) {
+            alert('Por favor selecciona una fecha de check-out');
+            return;
+        }
 
         const parametros = new URLSearchParams({
             destino,
@@ -30,20 +51,24 @@ export default function SearchBar() {
     }
 
     useEffect(() => {
-        const ciudades = async () => {
+        const obtenerSugerencias = async () => {
             if (debouncedDestino.length > 1) {
+                setCargando(true);
                 try {
-                    const response = await fetch(`/api/hotels?destino=${encodeURIComponent(destino)}&sugerencias=true`);
+                    const response = await fetch(`/api/autocomplete?q=${encodeURIComponent(debouncedDestino)}`);
                     const data = await response.json();
-                    setSugerencias(data.predicciones || []);
+                    setSugerencias(data.sugerencias || []);
                 } catch (error) {
-                    console.error("Error al cargar las sugerencias: ", error)
+                    console.error("Error al cargar las sugerencias: ", error);
+                    setSugerencias([]);
+                } finally {
+                    setCargando(false);
                 }
             } else {
                 setSugerencias([]);
             }
         };
-        ciudades();
+        obtenerSugerencias();
     }, [debouncedDestino]);
 
     const seleccion = (ciudad) => {
@@ -61,18 +86,25 @@ export default function SearchBar() {
                         placeholder="Buscar destinos"
                         className="input-estilo text-[1.4rem] font-medium" value={destino}
                         onChange={(e) => setDestino(e.target.value)}
+                        required
                     />
-                    {sugerencias.length > 0 && (
-                        <ul className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg mt-1 shadow-lg z-5 max-h-60 overflow-y-auto">
-                            {sugerencias.map((ciudad, index) => (
-                                <li
-                                    key={index}
-                                    onClick={() => seleccion(ciudad)}
-                                    className="x-4 py-2 cursor-pointer hover:bg-gray-100 text-[1.4rem] font-medium"
-                                >
-                                    {ciudad}
+                    {(sugerencias.length > 0 || cargando) && (
+                        <ul className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg mt-1 shadow-lg z-50 max-h-60 overflow-y-auto">
+                            {cargando ? (
+                                <li className="px-4 py-2 text-[1.4rem] text-gray-500">
+                                    Cargando...
                                 </li>
-                            ))}
+                            ) : (
+                                sugerencias.map((ciudad, index) => (
+                                    <li
+                                        key={index}
+                                        onClick={() => seleccion(ciudad)}
+                                        className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-[1.4rem] font-medium"
+                                    >
+                                        {ciudad}
+                                    </li>
+                                ))
+                            )}
                         </ul>
                     )}
                 </div>
@@ -83,13 +115,17 @@ export default function SearchBar() {
                             type="date"
                             className="block w-full min-w-[125px] text-gray-800 bg-white rounded-lg text-[1.2rem] font-medium appearance-auto"
                             value={checkIn}
+                            min={fechaActual}
                             onChange={(e) => setCheckIn(e.target.value)}
+                            required
                         />
                         <input
                             type="date"
                             className="block w-full text-gray-800 min-w-[125px] bg-white rounded-lg text-[1.2rem] font-medium appearance-auto"
                             value={checkOut}
+                            min={getMinCheckout()}
                             onChange={(e) => setCheckOut(e.target.value)}
+                            required
                         />
                     </div>
                 </div>
